@@ -19,16 +19,23 @@ class HomeScreen extends ConsumerWidget {
               itemCount: entries.length,
               itemBuilder: (context, index) {
                 final entry = entries[index];
+                final hasLocation =
+                    entry.latitude != null && entry.longitude != null;
+
+                final locationLine = hasLocation
+                    ? 'Lat: ${entry.latitude!.toStringAsFixed(4)}, '
+                          'Lng: ${entry.longitude!.toStringAsFixed(4)}'
+                    : 'No location';
+
                 return ListTile(
                   title: Text(entry.title),
-                  subtitle: Text(entry.notes),
+                  subtitle: Text('${entry.notes}\n$locationLine'),
+                  isThreeLine: true,
                 );
               },
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/add');
-        },
+        onPressed: () => Navigator.pushNamed(context, '/add'),
         child: const Icon(Icons.add),
       ),
     );
